@@ -2,6 +2,8 @@ package com.makotan.example;
 
 import jodd.petite.PetiteContainer;
 import jodd.petite.config.AutomagicPetiteConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * User: makotan
@@ -9,17 +11,26 @@ import jodd.petite.config.AutomagicPetiteConfigurator;
  * Time: 18:40
  */
 public class AppCore {
+    private static Logger logger = LoggerFactory.getLogger(AppCore.class);
+    static AppCore instance = new AppCore();
+    
+    public static AppCore getInstance() {
+        return instance;
+    }
 
+    private Thread shutdownHook;
+    
     public void start() {
+        logger.info("start AppCore");
         //AppUtil.resolveDirs();
         //initLogger();
         initPetite();
         //initDb();
         // init everything else
-    }
-
-    public void stop() {
-        // close everything
+        if (shutdownHook == null) {
+            shutdownHook = new Thread(this::stop);
+            Runtime.getRuntime().addShutdownHook(shutdownHook);
+        }
     }
 
     protected PetiteContainer petite;
@@ -33,5 +44,17 @@ public class AppCore {
 
     public PetiteContainer getPetite() {
         return petite;
-    }    
+    }
+
+    public void stop() {
+        // close everything
+        terminate();
+    }
+
+    private void terminate() {
+        logger.info("terminate AppCore");
+
+        shutdownHook = null;
+        petite.shutdown();
+    }
 }

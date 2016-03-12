@@ -39,7 +39,7 @@ public class AppTest {
     
     @Before
     public void initTesT() {
-        app.appCore.getPetite().wire(this);
+        AppCore.getInstance().getPetite().wire(this);
     }
     
     @Test
