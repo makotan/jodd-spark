@@ -3,6 +3,8 @@ package com.makotan.example.front;
 import com.makotan.example.service.SimpleService;
 import jodd.petite.meta.PetiteBean;
 import jodd.petite.meta.PetiteInject;
+import spark.Request;
+import spark.Response;
 
 import static spark.Spark.*;
 
@@ -25,4 +27,5 @@ public class Hello {
             return "call!";
         });
     }
+
 }

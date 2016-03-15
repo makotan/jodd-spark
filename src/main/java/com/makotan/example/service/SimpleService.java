@@ -5,6 +5,7 @@ import jodd.petite.meta.PetiteBean;
 import jodd.petite.meta.PetiteDestroyMethod;
 import jodd.petite.meta.PetiteInitMethod;
 import jodd.petite.meta.PetiteInject;
+import org.seasar.doma.jdbc.tx.LocalTransactionDataSource;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,12 @@ public class SimpleService {
     
     @PetiteInject
     DomaConfig domaConfig;
+
+    @PetiteInject("dataSource")
+    LocalTransactionDataSource ds;
+
+    @PetiteInject("transactionManager")
+    TransactionManager tm;
     
     @PetiteInitMethod
     public void init() {
@@ -37,9 +44,8 @@ public class SimpleService {
     public void callService() {
         logger.info("SimpleService call !");
 
-        TransactionManager tm = domaConfig.getTransactionManager();
         tm.required(() -> {
-            try (Connection connection = domaConfig.getDataSource().getConnection()){
+            try (Connection connection = ds.getConnection()){
                 connection.createStatement().execute("create table t1(f1 VARCHAR );");
             } catch (SQLException e) {
                 logger.error("database ",e);

@@ -1,6 +1,7 @@
 package com.makotan.example.config;
 
 import jodd.petite.meta.PetiteBean;
+import jodd.petite.meta.PetiteProvider;
 import jodd.props.Props;
 import jodd.props.PropsUtil;
 import org.seasar.doma.jdbc.Config;
@@ -52,8 +53,18 @@ public class DomaConfig implements Config {
         return dataSource;
     }
 
+    @PetiteProvider
+    public DataSource dataSourceProvider() {
+        return dataSource;
+    }
+
     @Override
     public TransactionManager getTransactionManager() {
+        return transactionManager;
+    }
+
+    @PetiteProvider
+    public TransactionManager transactionManagerProvider() {
         return transactionManager;
     }
 }
