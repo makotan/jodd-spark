@@ -1,6 +1,7 @@
 package com.makotan.example;
 
 
+import com.makotan.example.service.SimpleService;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 import jodd.petite.meta.PetiteInject;
@@ -17,17 +18,17 @@ import static org.hamcrest.Matchers.*;
 /**
  * Unit test for simple App.
  */
-public class AppTest {
-    Logger logger = LoggerFactory.getLogger(AppTest.class);
-    static App app;
+public class ApplicationTest {
+    Logger logger = LoggerFactory.getLogger(ApplicationTest.class);
+    static Application application;
 
     @PetiteInject
     SimpleService service;
 
     @BeforeClass
     public static void setup() {
-        app = new App();
-        app.init();
+        application = new Application();
+        application.init();
 
         Spark.awaitInitialization();
     }

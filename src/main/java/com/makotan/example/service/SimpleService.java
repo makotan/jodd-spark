@@ -1,5 +1,6 @@
-package com.makotan.example;
+package com.makotan.example.service;
 
+import com.makotan.example.config.DomaConfig;
 import jodd.petite.meta.PetiteBean;
 import jodd.petite.meta.PetiteDestroyMethod;
 import jodd.petite.meta.PetiteInitMethod;

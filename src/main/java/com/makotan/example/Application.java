@@ -1,6 +1,9 @@
 package com.makotan.example;
 
 
+import com.makotan.example.front.Hello;
+import jodd.petite.meta.PetiteInject;
+
 import javax.servlet.http.HttpServletRequest;
 
 import static spark.Spark.*;
@@ -9,14 +12,18 @@ import static spark.Spark.*;
  * Hello world!
  *
  */
-public class App {
+public class Application {
     private static final ThreadLocal<HttpServletRequest> requestHolder = new InheritableThreadLocal<>();
     public static void main(String[] args) {
-        new App().init();
+        new Application().init();
     }
 
+    @PetiteInject
+    Hello hello;
+    
     public void init() {
         AppCore.getInstance().start();
+        AppCore.getInstance().getPetite().wire(this);
         
         before((req,res) -> {
             requestHolder.set(req.raw());
@@ -25,14 +32,9 @@ public class App {
         after((req,res) -> {
             requestHolder.remove();
         });
+
+        hello.init();
         
-        get("/hello", (req, res) -> "Hello World");
-        
-        get("/call" , (req, res) -> {
-            SimpleService service = AppCore.getInstance().getPetite().getBean(SimpleService.class);
-            service.callService();
-            return "call!";
-        });
     }
     
 }

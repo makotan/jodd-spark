@@ -1,4 +1,4 @@
-package com.makotan.example;
+package com.makotan.example.config;
 
 import jodd.petite.meta.PetiteBean;
 import jodd.props.Props;
