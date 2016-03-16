@@ -2,6 +2,7 @@ package com.makotan.example;
 
 
 import com.makotan.example.front.Hello;
+import com.makotan.example.front.UsersRest;
 import jodd.petite.meta.PetiteInject;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +19,12 @@ public class Application {
         new Application().init();
     }
 
+    // InitMethod呼び出し用
     @PetiteInject
     Hello hello;
+
+    @PetiteInject
+    UsersRest usersRest;
     
     public void init() {
         AppCore.getInstance().start();
@@ -32,8 +37,6 @@ public class Application {
         after((req,res) -> {
             requestHolder.remove();
         });
-
-        hello.init();
         
     }
     
